@@ -11,7 +11,7 @@ Route::get('/', 'Admin\InicioController@index');
 Route::get('auth/login', 'Seguridad\LoginController@index')->name('login');
 Route::post('auth/login', 'Seguridad\LoginController@login')->name('login_post');
 Route::get('auth/logout', 'Seguridad\LoginController@logout')->name('logout');
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin',  'middleware' => ['auth', 'root']], function () {
     Route::get('/', 'AdminController@index')->name('admin');
     /* Rutas de ACCESO */
     Route::get('acceso', 'AccesoController@index')->name('acceso');
@@ -67,7 +67,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::post('usuario/update', 'UsuarioController@update')->name('update_usuario');
     Route::post('usuario/destroy', 'UsuarioController@destroy')->name('destroy_usuario');
 });
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'acceso']], function () {
     /* Rutas de PERSONA */
     Route::get('persona/create', 'PersonaController@create')->name('create_persona');
     Route::get('persona', 'PersonaController@index')->name('persona');
